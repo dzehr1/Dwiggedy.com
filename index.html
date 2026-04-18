@@ -398,13 +398,34 @@
         aspect-ratio: 3 / 4;
         background: #0a0908;
         overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
-      .closet__img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+      .closet__placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-sm);
+        padding: var(--space-md);
+        text-align: center;
+      }
+
+      .closet__placeholder__mark {
+        font-size: 1.25rem;
+        line-height: 1;
+        color: var(--gold-dim);
+      }
+
+      .closet__placeholder__label {
+        margin: 0;
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--text-muted);
       }
 
       .closet__body {
@@ -556,82 +577,70 @@
         </p>
         <div class="closet__grid">
           <article class="closet__card">
-            <figure class="closet__figure">
-              <img
-                class="closet__img"
-                src="images/alpine-ridge.jpg"
-                alt="Alpine Ridge coat on a neutral background"
-                width="800"
-                height="1067"
-                loading="lazy"
-                decoding="async"
-              />
+            <figure class="closet__figure" aria-label="Product photo coming soon">
+              <div class="closet__placeholder">
+                <span class="closet__placeholder__mark" aria-hidden="true">✦</span>
+                <p class="closet__placeholder__label">Coming soon</p>
+              </div>
             </figure>
             <div class="closet__body">
               <p class="closet__worn">As worn by Dwiggedy</p>
-              <h3 class="closet__name">Alpine Ridge</h3>
+              <h3 class="closet__name">Soft Charcoal Triblend Tee</h3>
               <p class="closet__desc">
-                Structured shell, soft lining—quiet armor for the front row and the front door.
+                Light, airy triblend—soft charcoal texture, clean crewneck, barely there until the
+                room goes quiet.
               </p>
               <div class="closet__row">
-                <p class="closet__price">$248</p>
+                <p class="closet__price">$48</p>
                 <a
                   class="closet__btn"
-                  href="mailto:press@dwiggedy.com?subject=Closet%3A%20Alpine%20Ridge&amp;body=Hi%2C%20I%E2%80%99d%20like%20to%20purchase%20Alpine%20Ridge.%20"
+                  href="mailto:press@dwiggedy.com?subject=Closet%3A%20Soft%20Charcoal%20Triblend%20Tee&amp;body=Hi%2C%20I%E2%80%99d%20like%20to%20purchase%20Soft%20Charcoal%20Triblend%20Tee.%20"
                   >Buy</a>
               </div>
             </div>
           </article>
           <article class="closet__card">
-            <figure class="closet__figure">
-              <img
-                class="closet__img"
-                src="images/fjord-fleece-crew.jpg"
-                alt="Fjord Fleece crewneck folded or worn"
-                width="800"
-                height="1067"
-                loading="lazy"
-                decoding="async"
-              />
+            <figure class="closet__figure" aria-label="Product photo coming soon">
+              <div class="closet__placeholder">
+                <span class="closet__placeholder__mark" aria-hidden="true">✦</span>
+                <p class="closet__placeholder__label">Coming soon</p>
+              </div>
             </figure>
             <div class="closet__body">
               <p class="closet__worn">As worn by Mouse</p>
-              <h3 class="closet__name">Fjord Fleece Crew</h3>
+              <h3 class="closet__name">Heather Logo Crewneck</h3>
               <p class="closet__desc">
-                Deep-pile warmth with a clean neckline—bass-low comfort, zero bulk.
+                Comfy heather gray with a stitched green mark—soft rib, easy drape, bass-side
+                pocket for the essentials.
               </p>
               <div class="closet__row">
-                <p class="closet__price">$128</p>
+                <p class="closet__price">$98</p>
                 <a
                   class="closet__btn"
-                  href="mailto:press@dwiggedy.com?subject=Closet%3A%20Fjord%20Fleece%20Crew&amp;body=Hi%2C%20I%E2%80%99d%20like%20to%20purchase%20Fjord%20Fleece%20Crew.%20"
+                  href="mailto:press@dwiggedy.com?subject=Closet%3A%20Heather%20Logo%20Crewneck&amp;body=Hi%2C%20I%E2%80%99d%20like%20to%20purchase%20Heather%20Logo%20Crewneck.%20"
                   >Buy</a>
               </div>
             </div>
           </article>
           <article class="closet__card">
-            <figure class="closet__figure">
-              <img
-                class="closet__img"
-                src="images/mountain-pass.jpg"
-                alt="Mountain Pass jacket detail"
-                width="800"
-                height="1067"
-                loading="lazy"
-                decoding="async"
-              />
+            <figure class="closet__figure" aria-label="Product photo coming soon">
+              <div class="closet__placeholder">
+                <span class="closet__placeholder__mark" aria-hidden="true">✦</span>
+                <p class="closet__placeholder__label">Coming soon</p>
+              </div>
             </figure>
             <div class="closet__body">
               <p class="closet__worn">As worn by Monkey</p>
-              <h3 class="closet__name">Mountain Pass</h3>
+              <h3 class="closet__name">Green Leather Shirt</h3>
               <p class="closet__desc">
-                Weather-ready layer with room to move—tempo in the seams, grit in the zipper.
+                Supple hide in deep moss—tailored drape, quiet shine, enough flex for closed
+                hi-hats and open highways.
               </p>
               <div class="closet__row">
-                <p class="closet__price">$198</p>
+                <p class="closet__price">$268</p>
                 <a
                   class="closet__btn"
-                  href="mailto:press@dwiggedy.com?subject=Closet%3A%20Mountain%20Pass&amp;body=Hi%2C%20I%E2%80%99d%20like%20to%20purchase%20Mountain%20Pass.%20"
+                  href="mailto:press@dwiggedy.com?subject=Closet%3A%20Green%20Leather%20Shirt&amp;body=Hi%2C%20I%E2%80%99d%20like%20to%20purchase%20Green%20Leather%20Shirt.%20"
                   >Buy</a>
               </div>
             </div>
