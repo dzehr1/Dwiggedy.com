@@ -428,6 +428,13 @@
         color: var(--text-muted);
       }
 
+      .closet__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
       .closet__body {
         display: flex;
         flex-direction: column;
@@ -577,11 +584,13 @@
         </p>
         <div class="closet__grid">
           <article class="closet__card">
-            <figure class="closet__figure" aria-label="Product photo coming soon">
-              <div class="closet__placeholder">
-                <span class="closet__placeholder__mark" aria-hidden="true">✦</span>
-                <p class="closet__placeholder__label">Coming soon</p>
-              </div>
+            <figure class="closet__figure" aria-label="Soft Charcoal Triblend Tee, front view">
+              <img
+                class="closet__img"
+                src="images/soft-charcoal-triblend-tee.png"
+                alt="Soft charcoal triblend short-sleeve tee with a chest pocket, laid flat on a light background"
+                loading="lazy"
+              />
             </figure>
             <div class="closet__body">
               <p class="closet__worn">As worn by Dwiggedy</p>
@@ -623,11 +632,13 @@
             </div>
           </article>
           <article class="closet__card">
-            <figure class="closet__figure" aria-label="Product photo coming soon">
-              <div class="closet__placeholder">
-                <span class="closet__placeholder__mark" aria-hidden="true">✦</span>
-                <p class="closet__placeholder__label">Coming soon</p>
-              </div>
+            <figure class="closet__figure" aria-label="Green Leather Shirt on a wooden hanger">
+              <img
+                class="closet__img"
+                src="images/green-leather-shirt.png"
+                alt="Deep moss suede leather shirt with snap buttons and western-style chest pockets on a wooden hanger"
+                loading="lazy"
+              />
             </figure>
             <div class="closet__body">
               <p class="closet__worn">As worn by Monkey</p>
