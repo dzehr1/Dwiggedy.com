@@ -438,6 +438,23 @@
         color: var(--text-muted);
       }
 
+      #follow .section__title a,
+      #follow .follow__hint a {
+        color: inherit;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(154, 143, 133, 0.55);
+        padding-bottom: 1px;
+        transition: color 0.2s ease, border-color 0.2s ease;
+      }
+
+      #follow .section__title a:hover,
+      #follow .section__title a:focus-visible,
+      #follow .follow__hint a:hover,
+      #follow .follow__hint a:focus-visible {
+        color: var(--gold);
+        border-bottom-color: var(--gold);
+      }
+
       /* Footer */
       .site-footer {
         padding: var(--space-lg) var(--space-md);
@@ -1547,10 +1564,17 @@
 
       <section class="section follow" id="follow" aria-labelledby="follow-heading">
         <p class="section__label">Follow</p>
-        <h2 id="follow-heading" class="section__title">@dwiggedy</h2>
+        <h2 id="follow-heading" class="section__title">
+          <a
+            href="https://www.instagram.com/dwiggedyz/"
+            aria-label="Follow Dwiggedy on Instagram"
+            rel="noopener noreferrer"
+            target="_blank"
+          >@dwiggedy</a>
+        </h2>
         <div class="follow__icons">
           <a
-            href="https://www.instagram.com/dwiggedy/"
+            href="https://www.instagram.com/dwiggedyz/"
             aria-label="Instagram @dwiggedy"
             rel="noopener noreferrer"
             target="_blank"
@@ -1586,7 +1610,28 @@
             </svg>
           </a>
         </div>
-        <p class="follow__hint">Instagram · TikTok · Pinterest</p>
+        <p class="follow__hint">
+          <a
+            href="https://www.instagram.com/dwiggedyz/"
+            aria-label="Follow Dwiggedy on Instagram"
+            rel="noopener noreferrer"
+            target="_blank"
+          >Instagram</a>
+          ·
+          <a
+            href="https://www.tiktok.com/@dwiggedy"
+            aria-label="Follow Dwiggedy on TikTok"
+            rel="noopener noreferrer"
+            target="_blank"
+          >TikTok</a>
+          ·
+          <a
+            href="https://www.pinterest.com/dwiggedy/"
+            aria-label="Follow Dwiggedy on Pinterest"
+            rel="noopener noreferrer"
+            target="_blank"
+          >Pinterest</a>
+        </p>
       </section>
     </main>
 
