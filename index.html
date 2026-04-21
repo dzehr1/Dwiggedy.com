@@ -634,6 +634,721 @@
         color: var(--text-muted);
         line-height: 1.65;
       }
+
+      /* Size selector */
+      .closet__sizes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: var(--space-sm);
+      }
+
+      .size-pill {
+        min-width: 2.5rem;
+        min-height: 2.5rem;
+        padding: 0.4rem 0.7rem;
+        font-family: var(--font-body);
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--text);
+        background: transparent;
+        border: 1px solid rgba(200, 149, 74, 0.35);
+        border-radius: 2px;
+        cursor: pointer;
+        transition: color 0.25s var(--ease), background 0.25s var(--ease),
+          border-color 0.25s var(--ease);
+      }
+
+      .size-pill:hover,
+      .size-pill:focus-visible {
+        border-color: var(--gold);
+      }
+
+      .size-pill.is-selected {
+        background: var(--gold);
+        color: var(--bg);
+        border-color: var(--gold);
+      }
+
+      .size-pill:focus-visible {
+        outline: 1px solid var(--gold-dim);
+        outline-offset: 2px;
+      }
+
+      @keyframes cartShake {
+        0%, 100% { transform: translateX(0); }
+        20% { transform: translateX(-6px); }
+        40% { transform: translateX(6px); }
+        60% { transform: translateX(-4px); }
+        80% { transform: translateX(4px); }
+      }
+
+      .closet__sizes.is-shaking {
+        animation: cartShake 0.4s var(--ease);
+      }
+
+      /* Add-to-cart button (replaces mailto Buy) */
+      .closet__add {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.5rem;
+        padding: 0.55rem 1.1rem;
+        font-family: var(--font-body);
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--bg);
+        background: var(--gold);
+        border: 1px solid var(--gold);
+        cursor: pointer;
+        transition: color 0.35s var(--ease), background 0.35s var(--ease),
+          border-color 0.35s var(--ease);
+      }
+
+      .closet__add:hover,
+      .closet__add:focus-visible {
+        background: var(--gold-hover);
+        border-color: var(--gold-hover);
+      }
+
+      .closet__add:focus-visible {
+        outline: 1px solid var(--gold-dim);
+        outline-offset: 3px;
+      }
+
+      .closet__add.is-added {
+        background: transparent;
+        color: var(--gold);
+      }
+
+      /* Nav cart button */
+      .nav__cart {
+        pointer-events: auto;
+        position: fixed;
+        top: calc(var(--space-sm) + env(safe-area-inset-top));
+        right: calc(var(--space-md) + env(safe-area-inset-right));
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        padding: 0;
+        background: transparent;
+        border: 1px solid rgba(200, 149, 74, 0.25);
+        border-radius: 50%;
+        color: var(--gold);
+        cursor: pointer;
+        transition: color 0.35s var(--ease), border-color 0.35s var(--ease),
+          background 0.35s var(--ease);
+        z-index: 110;
+      }
+
+      .nav__cart:hover,
+      .nav__cart:focus-visible {
+        color: var(--gold-hover);
+        border-color: rgba(200, 149, 74, 0.55);
+        background: rgba(200, 149, 74, 0.06);
+      }
+
+      .nav__cart:focus-visible {
+        outline: 1px solid var(--gold-dim);
+        outline-offset: 3px;
+      }
+
+      .nav__cart svg {
+        width: 1rem;
+        height: 1rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.25;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .cart-badge {
+        position: absolute;
+        top: -4px;
+        right: -6px;
+        min-width: 1.05rem;
+        height: 1.05rem;
+        padding: 0 0.28rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--gold);
+        color: var(--bg);
+        font-family: var(--font-body);
+        font-size: 0.5625rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        border-radius: 999px;
+        line-height: 1;
+      }
+
+      .cart-badge[hidden] {
+        display: none;
+      }
+
+      /* Cart drawer */
+      .cart-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(8, 7, 6, 0.55);
+        backdrop-filter: blur(2px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        z-index: 200;
+      }
+
+      .cart-overlay.is-open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .cart-drawer {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        max-width: 420px;
+        background: var(--bg-elevated);
+        border-left: 1px solid rgba(200, 149, 74, 0.18);
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        z-index: 210;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .cart-drawer.is-open {
+        transform: translateX(0);
+      }
+
+      .cart-drawer__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: calc(var(--space-md) + env(safe-area-inset-top))
+          var(--space-md) var(--space-sm);
+        border-bottom: 1px solid rgba(200, 149, 74, 0.12);
+      }
+
+      .cart-drawer__title {
+        margin: 0;
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+
+      .cart-drawer__close {
+        appearance: none;
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        line-height: 1;
+        width: 2.25rem;
+        height: 2.25rem;
+        cursor: pointer;
+        transition: color 0.25s var(--ease);
+      }
+
+      .cart-drawer__close:hover,
+      .cart-drawer__close:focus-visible {
+        color: var(--gold);
+      }
+
+      .cart-drawer__body {
+        flex: 1;
+        overflow-y: auto;
+        padding: var(--space-md);
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .cart-empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: var(--space-sm);
+        padding: var(--space-xl) var(--space-md);
+        color: var(--text-muted);
+      }
+
+      .cart-empty__mark {
+        font-size: 1.25rem;
+        color: var(--gold-dim);
+      }
+
+      .cart-empty__label {
+        margin: 0;
+        font-family: var(--font-display);
+        font-size: 1.0625rem;
+        font-style: italic;
+        color: var(--text);
+      }
+
+      .cart-empty__link {
+        font-size: 0.6875rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        background: transparent;
+        border: none;
+        color: var(--gold);
+        cursor: pointer;
+        padding: 0.5rem 0.25rem;
+      }
+
+      .cart-empty__link:hover,
+      .cart-empty__link:focus-visible {
+        color: var(--gold-hover);
+      }
+
+      .cart-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-md);
+      }
+
+      .cart-item {
+        display: grid;
+        grid-template-columns: 60px 1fr;
+        gap: var(--space-sm);
+        padding-bottom: var(--space-md);
+        border-bottom: 1px solid rgba(200, 149, 74, 0.1);
+      }
+
+      .cart-item:last-child {
+        border-bottom: none;
+      }
+
+      .cart-item__thumb {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        background: var(--bg);
+        border: 1px solid rgba(200, 149, 74, 0.1);
+      }
+
+      .cart-item__info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .cart-item__name {
+        margin: 0;
+        font-family: var(--font-display);
+        font-size: 0.9375rem;
+        font-weight: 500;
+        color: var(--text);
+        line-height: 1.3;
+      }
+
+      .cart-item__meta {
+        margin: 0;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        letter-spacing: 0.06em;
+      }
+
+      .cart-item__row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-sm);
+        margin-top: 0.35rem;
+      }
+
+      .qty {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid rgba(200, 149, 74, 0.22);
+      }
+
+      .qty__btn {
+        width: 2rem;
+        height: 2rem;
+        background: transparent;
+        border: none;
+        color: var(--gold);
+        font-family: var(--font-body);
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: color 0.25s var(--ease);
+      }
+
+      .qty__btn:hover,
+      .qty__btn:focus-visible {
+        color: var(--gold-hover);
+      }
+
+      .qty__value {
+        min-width: 1.5rem;
+        text-align: center;
+        font-size: 0.8125rem;
+        color: var(--text);
+      }
+
+      .cart-item__price {
+        font-family: var(--font-display);
+        font-size: 0.9375rem;
+        color: var(--gold);
+      }
+
+      .cart-item__remove {
+        margin-top: 0.25rem;
+        align-self: flex-start;
+        background: transparent;
+        border: none;
+        padding: 0;
+        font-family: var(--font-body);
+        font-size: 0.6875rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: color 0.25s var(--ease);
+      }
+
+      .cart-item__remove:hover,
+      .cart-item__remove:focus-visible {
+        color: var(--gold);
+      }
+
+      .cart-drawer__footer {
+        padding: var(--space-md) var(--space-md)
+          calc(var(--space-md) + env(safe-area-inset-bottom));
+        border-top: 1px solid rgba(200, 149, 74, 0.12);
+        background: var(--bg-elevated);
+      }
+
+      .cart-subtotal {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: var(--space-sm);
+      }
+
+      .cart-subtotal__label {
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+
+      .cart-subtotal__value {
+        font-family: var(--font-display);
+        font-size: 1.125rem;
+        color: var(--gold);
+      }
+
+      .cart-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 3rem;
+        padding: 0.85rem 1.25rem;
+        background: var(--gold);
+        color: var(--bg);
+        border: 1px solid var(--gold);
+        font-family: var(--font-body);
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background 0.3s var(--ease), color 0.3s var(--ease),
+          border-color 0.3s var(--ease);
+      }
+
+      .cart-btn:hover,
+      .cart-btn:focus-visible {
+        background: var(--gold-hover);
+        border-color: var(--gold-hover);
+      }
+
+      .cart-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .cart-btn--ghost {
+        background: transparent;
+        color: var(--text);
+        border-color: rgba(200, 149, 74, 0.3);
+      }
+
+      .cart-btn--ghost:hover,
+      .cart-btn--ghost:focus-visible {
+        background: rgba(200, 149, 74, 0.06);
+        color: var(--gold);
+        border-color: var(--gold);
+      }
+
+      .cart-toast {
+        margin: var(--space-md) 0 0;
+        padding: var(--space-md);
+        border: 1px solid rgba(200, 149, 74, 0.25);
+        background: rgba(200, 149, 74, 0.05);
+        text-align: center;
+      }
+
+      .cart-toast p {
+        margin: 0;
+        font-size: 0.9375rem;
+        font-style: italic;
+        font-family: var(--font-display);
+        color: var(--text);
+        line-height: 1.55;
+      }
+
+      /* Checkout modal */
+      .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(8, 7, 6, 0.7);
+        backdrop-filter: blur(3px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+        z-index: 300;
+        padding: var(--space-md);
+        overflow-y: auto;
+      }
+
+      .modal.is-open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .modal__panel {
+        width: 100%;
+        max-width: 540px;
+        max-height: calc(100vh - 2 * var(--space-md));
+        max-height: calc(100dvh - 2 * var(--space-md));
+        overflow-y: auto;
+        background: var(--bg-elevated);
+        border: 1px solid rgba(200, 149, 74, 0.18);
+        padding: var(--space-lg) var(--space-md);
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .modal__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: var(--space-md);
+        margin-bottom: var(--space-md);
+      }
+
+      .modal__label {
+        margin: 0 0 var(--space-xs);
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+
+      .modal__title {
+        margin: 0;
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: var(--text);
+        line-height: 1.2;
+      }
+
+      .modal__close {
+        appearance: none;
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        line-height: 1;
+        width: 2.25rem;
+        height: 2.25rem;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: color 0.25s var(--ease);
+      }
+
+      .modal__close:hover,
+      .modal__close:focus-visible {
+        color: var(--gold);
+      }
+
+      .form-grid {
+        display: grid;
+        gap: var(--space-sm);
+      }
+
+      .form-row {
+        display: grid;
+        gap: var(--space-sm);
+      }
+
+      @media (min-width: 520px) {
+        .form-row--2 {
+          grid-template-columns: 1fr 1fr;
+        }
+        .form-row--3 {
+          grid-template-columns: 2fr 1fr 1fr;
+        }
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .field label {
+        font-size: 0.625rem;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+
+      .field input {
+        min-height: 2.75rem;
+        padding: 0.6rem 0.75rem;
+        background: rgba(8, 7, 6, 0.45);
+        border: 1px solid rgba(200, 149, 74, 0.2);
+        color: var(--text);
+        font-family: var(--font-body);
+        font-size: 0.9375rem;
+        transition: border-color 0.25s var(--ease);
+      }
+
+      .field input:focus {
+        outline: none;
+        border-color: var(--gold);
+      }
+
+      .field input::placeholder {
+        color: rgba(233, 229, 223, 0.3);
+      }
+
+      .order-summary {
+        margin-top: var(--space-md);
+        padding-top: var(--space-md);
+        border-top: 1px solid rgba(200, 149, 74, 0.15);
+      }
+
+      .order-summary__label {
+        margin: 0 0 var(--space-sm);
+        font-size: 0.625rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+
+      .order-summary ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+      }
+
+      .order-summary li {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--space-sm);
+        font-size: 0.875rem;
+        color: var(--text);
+      }
+
+      .order-summary__meta {
+        color: var(--text-muted);
+        font-size: 0.75rem;
+        letter-spacing: 0.06em;
+      }
+
+      .order-summary__total {
+        display: flex;
+        justify-content: space-between;
+        margin-top: var(--space-sm);
+        padding-top: var(--space-sm);
+        border-top: 1px solid rgba(200, 149, 74, 0.1);
+      }
+
+      .order-summary__total span:first-child {
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+
+      .order-summary__total span:last-child {
+        font-family: var(--font-display);
+        font-size: 1.125rem;
+        color: var(--gold);
+      }
+
+      .modal__submit {
+        margin-top: var(--space-md);
+      }
+
+      .modal__note {
+        margin: var(--space-sm) 0 0;
+        font-size: 0.75rem;
+        font-weight: 300;
+        color: var(--text-muted);
+        line-height: 1.65;
+        text-align: center;
+      }
+
+      /* Mobile adjustments */
+      @media (max-width: 479px) {
+        .cart-drawer {
+          max-width: 100%;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .modal {
+          padding: 0;
+          align-items: stretch;
+          justify-content: stretch;
+        }
+        .modal__panel {
+          max-width: none;
+          max-height: none;
+          min-height: 100dvh;
+          border: none;
+          padding: calc(var(--space-lg) + env(safe-area-inset-top))
+            var(--space-md)
+            calc(var(--space-lg) + env(safe-area-inset-bottom));
+        }
+      }
+
+      body.is-locked {
+        overflow: hidden;
+      }
     </style>
   </head>
   <body>
@@ -646,6 +1361,20 @@
         <a href="#follow">Follow</a>
       </div>
     </nav>
+    <button
+      type="button"
+      class="nav__cart"
+      id="cartButton"
+      aria-label="Open cart"
+      aria-controls="cartDrawer"
+      aria-expanded="false"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M7 7h10l1 11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L7 7z" />
+        <path d="M9 7a3 3 0 0 1 6 0" />
+      </svg>
+      <span class="cart-badge" id="cartBadge" hidden>0</span>
+    </button>
 
     <header class="hero" id="top">
       <h1 class="hero__title">DWIGGEDY</h1>
@@ -690,83 +1419,7 @@
           Limited runs of the layers you see on us—cut for late walks, studio hours, and the
           hush between songs. Each piece ships with a handwritten note from the trio.
         </p>
-        <div class="closet__grid">
-          <article class="closet__card">
-            <figure class="closet__figure" aria-label="Soft Charcoal Triblend Tee, front view">
-              <img
-                class="closet__img"
-                src="images/soft-charcoal-triblend-tee.png"
-                alt="Soft charcoal triblend short-sleeve tee with a chest pocket, laid flat on a light background"
-                loading="lazy"
-              />
-            </figure>
-            <div class="closet__body">
-              <p class="closet__worn">As worn by Dwiggedy</p>
-              <h3 class="closet__name">Soft Charcoal Triblend Tee</h3>
-              <p class="closet__desc">
-                Light, airy triblend—soft charcoal texture, clean crewneck, barely there until the
-                room goes still.
-              </p>
-              <div class="closet__row">
-                <p class="closet__price">48</p>
-                <a
-                  class="closet__btn"
-                  href="mailto:press@dwiggedy.com?subject=Closet%3A%20Soft%20Charcoal%20Triblend%20Tee&amp;body=Hi%2C%20I%E2%80%99d%20like%20to%20purchase%20Soft%20Charcoal%20Triblend%20Tee.%20"
-                  >Buy</a>
-              </div>
-            </div>
-          </article>
-          <article class="closet__card">
-            <figure class="closet__figure" aria-label="Heather Logo Crewneck laid flat on a wooden table">
-              <img
-                class="closet__img"
-                src="images/heather-logo-crewneck.png"
-                alt="Heather gray crewneck sweatshirt with a stitched green sun-mark on the chest, laid flat on a wooden table"
-                loading="lazy"
-              />
-            </figure>
-            <div class="closet__body">
-              <p class="closet__worn">As worn by Mouse</p>
-              <h3 class="closet__name">Heather Logo Crewneck</h3>
-              <p class="closet__desc">
-                Comfy heather gray with a stitched green mark—soft rib, easy drape, bass-side
-                pocket for the essentials.
-              </p>
-              <div class="closet__row">
-                <p class="closet__price">98</p>
-                <a
-                  class="closet__btn"
-                  href="mailto:press@dwiggedy.com?subject=Closet%3A%20Heather%20Logo%20Crewneck&amp;body=Hi%2C%20I%E2%80%99d%20like%20to%20purchase%20Heather%20Logo%20Crewneck.%20"
-                  >Buy</a>
-              </div>
-            </div>
-          </article>
-          <article class="closet__card">
-            <figure class="closet__figure" aria-label="Green Leather Shirt on a wooden hanger">
-              <img
-                class="closet__img"
-                src="images/green-leather-shirt.png"
-                alt="Deep moss suede leather shirt with snap buttons and western-style chest pockets on a wooden hanger"
-                loading="lazy"
-              />
-            </figure>
-            <div class="closet__body">
-              <p class="closet__worn">As worn by Monkey</p>
-              <h3 class="closet__name">Green Leather Shirt</h3>
-              <p class="closet__desc">
-                Supple hide in deep moss—tailored drape, subtle shine, enough flex for closed
-                hi-hats and open highways.
-              </p>
-              <div class="closet__row">
-                <p class="closet__price">438</p>
-                <a
-                  class="closet__btn"
-                  href="mailto:press@dwiggedy.com?subject=Closet%3A%20Green%20Leather%20Shirt&amp;body=Hi%2C%20I%E2%80%99d%20like%20to%20purchase%20Green%20Leather%20Shirt.%20"
-                  >Buy</a>
-              </div>
-            </div>
-          </article>
-        </div>
+        <div class="closet__grid" id="closetGrid" aria-live="polite"></div>
         <p class="closet__note">
           Purchases are fulfilled by email—reply times are usually within two business days.
         </p>
@@ -849,6 +1502,112 @@
       </section>
     </main>
 
+    <div class="cart-overlay" id="cartOverlay" hidden></div>
+
+    <aside
+      class="cart-drawer"
+      id="cartDrawer"
+      aria-label="Cart"
+      aria-hidden="true"
+      role="dialog"
+      tabindex="-1"
+    >
+      <header class="cart-drawer__header">
+        <h2 class="cart-drawer__title">The closet · cart</h2>
+        <button
+          type="button"
+          class="cart-drawer__close"
+          id="cartClose"
+          aria-label="Close cart"
+        >&#x2715;</button>
+      </header>
+      <div class="cart-drawer__body" id="cartBody"></div>
+      <footer class="cart-drawer__footer" id="cartFooter" hidden>
+        <div class="cart-subtotal">
+          <span class="cart-subtotal__label">Subtotal</span>
+          <span class="cart-subtotal__value" id="cartSubtotal">0</span>
+        </div>
+        <button type="button" class="cart-btn" id="checkoutButton">Checkout</button>
+      </footer>
+    </aside>
+
+    <div
+      class="modal"
+      id="checkoutModal"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="checkoutTitle"
+    >
+      <div class="modal__panel">
+        <div class="modal__header">
+          <div>
+            <p class="modal__label">Order</p>
+            <h2 class="modal__title" id="checkoutTitle">Place your order</h2>
+          </div>
+          <button
+            type="button"
+            class="modal__close"
+            id="checkoutClose"
+            aria-label="Close checkout"
+          >&#x2715;</button>
+        </div>
+        <form id="checkoutForm" class="form-grid" novalidate>
+          <div class="form-row form-row--2">
+            <div class="field">
+              <label for="co-name">Full name</label>
+              <input id="co-name" name="name" type="text" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="co-email">Email</label>
+              <input id="co-email" name="email" type="email" autocomplete="email" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="co-phone">Phone (optional)</label>
+            <input id="co-phone" name="phone" type="tel" autocomplete="tel" />
+          </div>
+          <div class="field">
+            <label for="co-street">Street address</label>
+            <input id="co-street" name="street" type="text" autocomplete="street-address" required />
+          </div>
+          <div class="form-row form-row--3">
+            <div class="field">
+              <label for="co-city">City</label>
+              <input id="co-city" name="city" type="text" autocomplete="address-level2" required />
+            </div>
+            <div class="field">
+              <label for="co-state">State / Region</label>
+              <input id="co-state" name="state" type="text" autocomplete="address-level1" required />
+            </div>
+            <div class="field">
+              <label for="co-zip">ZIP / Postal</label>
+              <input id="co-zip" name="zip" type="text" autocomplete="postal-code" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="co-country">Country</label>
+            <input id="co-country" name="country" type="text" autocomplete="country-name" value="United States" required />
+          </div>
+          <div class="order-summary" id="orderSummary">
+            <p class="order-summary__label">Order summary</p>
+            <ul id="orderSummaryList"></ul>
+            <div class="order-summary__total">
+              <span>Total</span>
+              <span id="orderSummaryTotal">0</span>
+            </div>
+          </div>
+          <button type="submit" class="cart-btn modal__submit" id="placeOrderButton">
+            Place order
+          </button>
+          <p class="modal__note">
+            Orders are confirmed by email. Your mail client will open pre-filled; send it to
+            complete the order.
+          </p>
+        </form>
+      </div>
+    </div>
+
     <footer class="site-footer">
       <p><a href="mailto:press@dwiggedy.com">press@dwiggedy.com</a></p>
       <p class="site-footer__mark">✦ dwiggedy.com</p>
@@ -882,6 +1641,565 @@
         if (window.location.hash) {
           scrollToHash(window.location.hash);
         }
+      })();
+
+      // -----------------------------------------------------------------
+      // The Closet — cart + checkout
+      // -----------------------------------------------------------------
+      (function () {
+        var products = [
+          {
+            id: "tee-charcoal",
+            name: "Soft Charcoal Triblend Tee",
+            worn: "As worn by Dwiggedy",
+            description:
+              "Light, airy triblend\u2014soft charcoal texture, clean crewneck, barely there until the room goes still.",
+            price: 48,
+            image: "images/soft-charcoal-triblend-tee.png",
+            imageAlt:
+              "Soft charcoal triblend short-sleeve tee with a chest pocket, laid flat on a light background",
+            figureLabel: "Soft Charcoal Triblend Tee, front view",
+            sizes: ["XS", "S", "M", "L", "XL"],
+            category: "tee",
+          },
+          {
+            id: "crewneck-heather",
+            name: "Heather Logo Crewneck",
+            worn: "As worn by Mouse",
+            description:
+              "Comfy heather gray with a stitched green mark\u2014soft rib, easy drape, bass-side pocket for the essentials.",
+            price: 98,
+            image: "images/heather-logo-crewneck.png",
+            imageAlt:
+              "Heather gray crewneck sweatshirt with a stitched green sun-mark on the chest, laid flat on a wooden table",
+            figureLabel: "Heather Logo Crewneck laid flat on a wooden table",
+            sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+            category: "sweatshirt",
+          },
+          {
+            id: "shirt-green-leather",
+            name: "Green Leather Shirt",
+            worn: "As worn by Monkey",
+            description:
+              "Supple hide in deep moss\u2014tailored drape, subtle shine, enough flex for closed hi-hats and open highways.",
+            price: 438,
+            image: "images/green-leather-shirt.png",
+            imageAlt:
+              "Deep moss suede leather shirt with snap buttons and western-style chest pockets on a wooden hanger",
+            figureLabel: "Green Leather Shirt on a wooden hanger",
+            sizes: ["XS", "S", "M", "L", "XL"],
+            category: "shirt",
+          },
+        ];
+
+        var CART_KEY = "dwiggedy_cart";
+        var selectedSizes = Object.create(null);
+        var cart = loadCart();
+        var thankYouTimer = null;
+
+        var grid = document.getElementById("closetGrid");
+        var badge = document.getElementById("cartBadge");
+        var cartButton = document.getElementById("cartButton");
+        var drawer = document.getElementById("cartDrawer");
+        var overlay = document.getElementById("cartOverlay");
+        var cartClose = document.getElementById("cartClose");
+        var cartBody = document.getElementById("cartBody");
+        var cartFooter = document.getElementById("cartFooter");
+        var cartSubtotal = document.getElementById("cartSubtotal");
+        var checkoutButton = document.getElementById("checkoutButton");
+        var modal = document.getElementById("checkoutModal");
+        var modalPanel = modal.querySelector(".modal__panel");
+        var modalClose = document.getElementById("checkoutClose");
+        var form = document.getElementById("checkoutForm");
+        var summaryList = document.getElementById("orderSummaryList");
+        var summaryTotal = document.getElementById("orderSummaryTotal");
+
+        function loadCart() {
+          try {
+            var raw = localStorage.getItem(CART_KEY);
+            if (!raw) return [];
+            var parsed = JSON.parse(raw);
+            return Array.isArray(parsed) ? parsed : [];
+          } catch (err) {
+            return [];
+          }
+        }
+
+        function saveCart() {
+          try {
+            localStorage.setItem(CART_KEY, JSON.stringify(cart));
+          } catch (err) {
+            /* storage may be disabled; silently ignore */
+          }
+        }
+
+        function formatPrice(value) {
+          return String(Math.round(value));
+        }
+
+        function escapeHtml(str) {
+          return String(str).replace(/[&<>"']/g, function (c) {
+            return {
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            }[c];
+          });
+        }
+
+        function renderProducts() {
+          var html = products
+            .map(function (p) {
+              var sizeButtons = p.sizes
+                .map(function (s) {
+                  var isSel = selectedSizes[p.id] === s;
+                  return (
+                    '<button type="button" class="size-pill' +
+                    (isSel ? " is-selected" : "") +
+                    '" data-product="' +
+                    p.id +
+                    '" data-size="' +
+                    s +
+                    '" aria-pressed="' +
+                    (isSel ? "true" : "false") +
+                    '">' +
+                    s +
+                    "</button>"
+                  );
+                })
+                .join("");
+
+              return (
+                '<article class="closet__card">' +
+                '<figure class="closet__figure" aria-label="' +
+                escapeHtml(p.figureLabel) +
+                '">' +
+                '<img class="closet__img" src="' +
+                escapeHtml(p.image) +
+                '" alt="' +
+                escapeHtml(p.imageAlt) +
+                '" loading="lazy" />' +
+                "</figure>" +
+                '<div class="closet__body">' +
+                '<p class="closet__worn">' +
+                escapeHtml(p.worn) +
+                "</p>" +
+                '<h3 class="closet__name">' +
+                escapeHtml(p.name) +
+                "</h3>" +
+                '<p class="closet__desc">' +
+                escapeHtml(p.description) +
+                "</p>" +
+                '<div class="closet__sizes" role="group" aria-label="Size" data-sizes-for="' +
+                p.id +
+                '">' +
+                sizeButtons +
+                "</div>" +
+                '<div class="closet__row">' +
+                '<p class="closet__price">' +
+                formatPrice(p.price) +
+                "</p>" +
+                '<button type="button" class="closet__add" data-add-to-cart="' +
+                p.id +
+                '">Add to Cart</button>' +
+                "</div>" +
+                "</div>" +
+                "</article>"
+              );
+            })
+            .join("");
+          grid.innerHTML = html;
+        }
+
+        function findProduct(id) {
+          for (var i = 0; i < products.length; i++) {
+            if (products[i].id === id) return products[i];
+          }
+          return null;
+        }
+
+        function cartQuantity() {
+          return cart.reduce(function (sum, item) {
+            return sum + item.quantity;
+          }, 0);
+        }
+
+        function cartSubtotalValue() {
+          return cart.reduce(function (sum, item) {
+            return sum + item.price * item.quantity;
+          }, 0);
+        }
+
+        function updateBadge() {
+          var qty = cartQuantity();
+          if (qty > 0) {
+            badge.hidden = false;
+            badge.textContent = String(qty);
+          } else {
+            badge.hidden = true;
+            badge.textContent = "0";
+          }
+        }
+
+        function renderCart() {
+          updateBadge();
+          if (cart.length === 0) {
+            cartFooter.hidden = true;
+            cartBody.innerHTML =
+              '<div class="cart-empty">' +
+              '<span class="cart-empty__mark" aria-hidden="true">\u2726</span>' +
+              '<p class="cart-empty__label">The closet is quiet.</p>' +
+              '<button type="button" class="cart-empty__link" data-continue>Continue shopping</button>' +
+              "</div>";
+            return;
+          }
+
+          cartFooter.hidden = false;
+          cartSubtotal.textContent = formatPrice(cartSubtotalValue());
+
+          var items = cart
+            .map(function (item, idx) {
+              return (
+                '<li class="cart-item">' +
+                '<img class="cart-item__thumb" src="' +
+                escapeHtml(item.image) +
+                '" alt="" />' +
+                '<div class="cart-item__info">' +
+                '<p class="cart-item__name">' +
+                escapeHtml(item.name) +
+                "</p>" +
+                '<p class="cart-item__meta">Size ' +
+                escapeHtml(item.size) +
+                "</p>" +
+                '<div class="cart-item__row">' +
+                '<div class="qty" role="group" aria-label="Quantity">' +
+                '<button type="button" class="qty__btn" data-qty-dec="' +
+                idx +
+                '" aria-label="Decrease quantity">\u2212</button>' +
+                '<span class="qty__value">' +
+                item.quantity +
+                "</span>" +
+                '<button type="button" class="qty__btn" data-qty-inc="' +
+                idx +
+                '" aria-label="Increase quantity">+</button>' +
+                "</div>" +
+                '<span class="cart-item__price">' +
+                formatPrice(item.price * item.quantity) +
+                "</span>" +
+                "</div>" +
+                '<button type="button" class="cart-item__remove" data-remove="' +
+                idx +
+                '">Remove</button>' +
+                "</div>" +
+                "</li>"
+              );
+            })
+            .join("");
+
+          cartBody.innerHTML = '<ul class="cart-list">' + items + "</ul>";
+        }
+
+        function openDrawer() {
+          drawer.classList.add("is-open");
+          drawer.setAttribute("aria-hidden", "false");
+          overlay.hidden = false;
+          requestAnimationFrame(function () {
+            overlay.classList.add("is-open");
+          });
+          cartButton.setAttribute("aria-expanded", "true");
+          document.body.classList.add("is-locked");
+        }
+
+        function closeDrawer() {
+          drawer.classList.remove("is-open");
+          drawer.setAttribute("aria-hidden", "true");
+          overlay.classList.remove("is-open");
+          setTimeout(function () {
+            if (!overlay.classList.contains("is-open")) overlay.hidden = true;
+          }, 300);
+          cartButton.setAttribute("aria-expanded", "false");
+          if (!modal.classList.contains("is-open")) {
+            document.body.classList.remove("is-locked");
+          }
+        }
+
+        function shakeSizes(productId) {
+          var el = grid.querySelector('[data-sizes-for="' + productId + '"]');
+          if (!el) return;
+          el.classList.remove("is-shaking");
+          void el.offsetWidth;
+          el.classList.add("is-shaking");
+        }
+
+        function addToCart(productId, btn) {
+          var size = selectedSizes[productId];
+          if (!size) {
+            shakeSizes(productId);
+            return;
+          }
+          var product = findProduct(productId);
+          if (!product) return;
+
+          var existing = null;
+          for (var i = 0; i < cart.length; i++) {
+            if (cart[i].id === productId && cart[i].size === size) {
+              existing = cart[i];
+              break;
+            }
+          }
+          if (existing) {
+            existing.quantity += 1;
+          } else {
+            cart.push({
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              size: size,
+              image: product.image,
+              quantity: 1,
+            });
+          }
+          saveCart();
+          renderCart();
+
+          if (btn) {
+            var originalText = btn.textContent;
+            btn.textContent = "Added \u2713";
+            btn.classList.add("is-added");
+            btn.disabled = true;
+            setTimeout(function () {
+              btn.textContent = originalText;
+              btn.classList.remove("is-added");
+              btn.disabled = false;
+            }, 1500);
+          }
+
+          openDrawer();
+        }
+
+        function changeQty(index, delta) {
+          var item = cart[index];
+          if (!item) return;
+          item.quantity += delta;
+          if (item.quantity <= 0) {
+            cart.splice(index, 1);
+          }
+          saveCart();
+          renderCart();
+        }
+
+        function removeItem(index) {
+          cart.splice(index, 1);
+          saveCart();
+          renderCart();
+        }
+
+        // Grid delegation: size pills + add to cart
+        grid.addEventListener("click", function (e) {
+          var pill = e.target.closest("[data-size]");
+          if (pill) {
+            var pid = pill.getAttribute("data-product");
+            var size = pill.getAttribute("data-size");
+            selectedSizes[pid] = size;
+            var group = grid.querySelector('[data-sizes-for="' + pid + '"]');
+            if (group) {
+              var pills = group.querySelectorAll(".size-pill");
+              for (var i = 0; i < pills.length; i++) {
+                var isSel = pills[i].getAttribute("data-size") === size;
+                pills[i].classList.toggle("is-selected", isSel);
+                pills[i].setAttribute("aria-pressed", isSel ? "true" : "false");
+              }
+            }
+            return;
+          }
+          var addBtn = e.target.closest("[data-add-to-cart]");
+          if (addBtn) {
+            addToCart(addBtn.getAttribute("data-add-to-cart"), addBtn);
+          }
+        });
+
+        // Drawer interactions
+        cartButton.addEventListener("click", openDrawer);
+        cartClose.addEventListener("click", closeDrawer);
+        overlay.addEventListener("click", closeDrawer);
+
+        cartBody.addEventListener("click", function (e) {
+          var dec = e.target.closest("[data-qty-dec]");
+          if (dec) {
+            changeQty(parseInt(dec.getAttribute("data-qty-dec"), 10), -1);
+            return;
+          }
+          var inc = e.target.closest("[data-qty-inc]");
+          if (inc) {
+            changeQty(parseInt(inc.getAttribute("data-qty-inc"), 10), 1);
+            return;
+          }
+          var rm = e.target.closest("[data-remove]");
+          if (rm) {
+            removeItem(parseInt(rm.getAttribute("data-remove"), 10));
+            return;
+          }
+          if (e.target.closest("[data-continue]")) {
+            closeDrawer();
+            var closetSection = document.getElementById("closet");
+            if (closetSection) {
+              closetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }
+        });
+
+        // Checkout modal
+        function openModal() {
+          if (cart.length === 0) return;
+          renderOrderSummary();
+          modal.classList.add("is-open");
+          modal.setAttribute("aria-hidden", "false");
+          document.body.classList.add("is-locked");
+          setTimeout(function () {
+            var first = form.querySelector("input");
+            if (first) first.focus();
+          }, 50);
+        }
+
+        function closeModal() {
+          modal.classList.remove("is-open");
+          modal.setAttribute("aria-hidden", "true");
+          if (!drawer.classList.contains("is-open")) {
+            document.body.classList.remove("is-locked");
+          }
+        }
+
+        function renderOrderSummary() {
+          var items = cart
+            .map(function (item) {
+              return (
+                "<li>" +
+                "<span>" +
+                escapeHtml(item.name) +
+                ' <span class="order-summary__meta">\u00b7 Size ' +
+                escapeHtml(item.size) +
+                " \u00b7 \u00d7" +
+                item.quantity +
+                "</span></span>" +
+                "<span>" +
+                formatPrice(item.price * item.quantity) +
+                "</span>" +
+                "</li>"
+              );
+            })
+            .join("");
+          summaryList.innerHTML = items;
+          summaryTotal.textContent = formatPrice(cartSubtotalValue());
+        }
+
+        checkoutButton.addEventListener("click", openModal);
+        modalClose.addEventListener("click", closeModal);
+        modal.addEventListener("click", function (e) {
+          if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key !== "Escape") return;
+          if (modal.classList.contains("is-open")) {
+            closeModal();
+          } else if (drawer.classList.contains("is-open")) {
+            closeDrawer();
+          }
+        });
+
+        // Checkout form submit — mailto fallback
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          if (cart.length === 0) return;
+
+          var fd = new FormData(form);
+          var name = (fd.get("name") || "").toString().trim();
+          var email = (fd.get("email") || "").toString().trim();
+          var phone = (fd.get("phone") || "").toString().trim();
+          var street = (fd.get("street") || "").toString().trim();
+          var city = (fd.get("city") || "").toString().trim();
+          var state = (fd.get("state") || "").toString().trim();
+          var zip = (fd.get("zip") || "").toString().trim();
+          var country = (fd.get("country") || "").toString().trim();
+
+          if (!name || !email || !street || !city || !state || !zip || !country) {
+            var firstInvalid = form.querySelector("input:invalid");
+            if (firstInvalid) firstInvalid.focus();
+            return;
+          }
+
+          var total = cartSubtotalValue();
+          var lines = [];
+          lines.push("New order from dwiggedy.com");
+          lines.push("");
+          lines.push("Customer");
+          lines.push("--------");
+          lines.push("Name: " + name);
+          lines.push("Email: " + email);
+          if (phone) lines.push("Phone: " + phone);
+          lines.push("");
+          lines.push("Shipping");
+          lines.push("--------");
+          lines.push(street);
+          lines.push(city + ", " + state + " " + zip);
+          lines.push(country);
+          lines.push("");
+          lines.push("Items");
+          lines.push("-----");
+          cart.forEach(function (item) {
+            lines.push(
+              "- " +
+                item.name +
+                " (Size " +
+                item.size +
+                ") x" +
+                item.quantity +
+                " — " +
+                formatPrice(item.price * item.quantity)
+            );
+          });
+          lines.push("");
+          lines.push("Total: " + formatPrice(total));
+
+          var body = lines.join("\r\n");
+          var subject = "Closet order \u2014 " + name;
+          var href =
+            "mailto:press@dwiggedy.com" +
+            "?subject=" +
+            encodeURIComponent(subject) +
+            "&body=" +
+            encodeURIComponent(body);
+
+          window.location.href = href;
+
+          // Clear cart + show thank-you in drawer
+          cart = [];
+          saveCart();
+          closeModal();
+          form.reset();
+          var countryInput = document.getElementById("co-country");
+          if (countryInput) countryInput.value = "United States";
+
+          renderCart();
+          showThankYou();
+          openDrawer();
+        });
+
+        function showThankYou() {
+          if (thankYouTimer) clearTimeout(thankYouTimer);
+          cartFooter.hidden = true;
+          cartBody.innerHTML =
+            '<div class="cart-toast"><p>Order received. Dwiggedy will be in touch within two business days.</p></div>';
+          thankYouTimer = setTimeout(function () {
+            renderCart();
+          }, 6000);
+        }
+
+        // Initial paint
+        renderProducts();
+        renderCart();
       })();
     </script>
   </body>
