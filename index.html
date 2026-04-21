@@ -2,12 +2,112 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover"
+    />
+    <title>DWIGGEDY | Quiet Luxury Streetwear</title>
     <meta
       name="description"
-      content="Dwiggedy — fashion & lifestyle with subtle sophistication. The closet: pieces worn by Dwiggedy, Mouse & Monkey. Debut album: No Noise."
+      content="DWIGGEDY is a quiet luxury streetwear label. Refined silhouettes, premium materials, understated identity. Shop the collection."
     />
-    <title>dwiggedy.com — Dwiggedy</title>
+    <meta
+      name="keywords"
+      content="quiet luxury, streetwear, dwiggedy, premium streetwear, luxury fashion, minimalist streetwear, high-end streetwear"
+    />
+    <meta name="author" content="DWIGGEDY" />
+    <meta name="creator" content="DWIGGEDY" />
+    <meta name="publisher" content="DWIGGEDY" />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <link rel="canonical" href="https://dwiggedy.com/" />
+
+    <!-- Theme color: honors the existing dark palette; light preference mapped to bone white -->
+    <meta
+      name="theme-color"
+      content="#f5f0eb"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#0e0e0e"
+      media="(prefers-color-scheme: dark)"
+    />
+
+    <!-- iOS / iPhone PWA behavior -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="DWIGGEDY" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Favicons / icons (drop files in repo root; see TODO list in README) -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/icon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- iPhone splash screens (portrait) -->
+    <link
+      rel="apple-touch-startup-image"
+      href="/splash/iphone16promax.png"
+      media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/splash/iphone16pro.png"
+      media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/splash/iphone14promax.png"
+      media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/splash/iphone14pro.png"
+      media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/splash/iphonese.png"
+      media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
+    />
+
+    <!-- Open Graph (iMessage link previews, Facebook, LinkedIn, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DWIGGEDY" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://dwiggedy.com/" />
+    <meta property="og:title" content="DWIGGEDY | Quiet Luxury Streetwear" />
+    <meta
+      property="og:description"
+      content="Refined silhouettes, premium materials, understated identity."
+    />
+    <meta property="og:image" content="https://dwiggedy.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="DWIGGEDY — Quiet Luxury Streetwear" />
+
+    <!-- Twitter / X card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@dwiggedy" />
+    <meta name="twitter:creator" content="@dwiggedy" />
+    <meta name="twitter:title" content="DWIGGEDY | Quiet Luxury Streetwear" />
+    <meta
+      name="twitter:description"
+      content="Refined silhouettes, premium materials, understated identity."
+    />
+    <meta name="twitter:image" content="https://dwiggedy.com/og-image.png" />
+    <meta
+      name="twitter:image:alt"
+      content="DWIGGEDY — Quiet Luxury Streetwear"
+    />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -77,10 +177,18 @@
         left: 0;
         right: 0;
         z-index: 100;
-        padding: var(--space-sm) var(--space-md);
+        padding: calc(var(--space-sm) + env(safe-area-inset-top))
+          calc(var(--space-md) + env(safe-area-inset-right))
+          var(--space-sm)
+          calc(var(--space-md) + env(safe-area-inset-left));
         display: flex;
         justify-content: center;
         pointer-events: none;
+      }
+
+      /* Disable iOS tap flash for a cleaner feel */
+      * {
+        -webkit-tap-highlight-color: transparent;
       }
 
       .nav__inner {
@@ -600,7 +708,7 @@
                 room goes still.
               </p>
               <div class="closet__row">
-                <p class="closet__price">$48</p>
+                <p class="closet__price">48</p>
                 <a
                   class="closet__btn"
                   href="mailto:press@dwiggedy.com?subject=Closet%3A%20Soft%20Charcoal%20Triblend%20Tee&amp;body=Hi%2C%20I%E2%80%99d%20like%20to%20purchase%20Soft%20Charcoal%20Triblend%20Tee.%20"
@@ -623,7 +731,7 @@
                 pocket for the essentials.
               </p>
               <div class="closet__row">
-                <p class="closet__price">$98</p>
+                <p class="closet__price">98</p>
                 <a
                   class="closet__btn"
                   href="mailto:press@dwiggedy.com?subject=Closet%3A%20Heather%20Logo%20Crewneck&amp;body=Hi%2C%20I%E2%80%99d%20like%20to%20purchase%20Heather%20Logo%20Crewneck.%20"
@@ -648,7 +756,7 @@
                 hi-hats and open highways.
               </p>
               <div class="closet__row">
-                <p class="closet__price">$268</p>
+                <p class="closet__price">438</p>
                 <a
                   class="closet__btn"
                   href="mailto:press@dwiggedy.com?subject=Closet%3A%20Green%20Leather%20Shirt&amp;body=Hi%2C%20I%E2%80%99d%20like%20to%20purchase%20Green%20Leather%20Shirt.%20"
