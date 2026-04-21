@@ -1384,9 +1384,62 @@
           display: none;
         }
       }
+
+      /* Scroll progress bar (mobile only) */
+      #scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 1.5px;
+        width: 0%;
+        background: #c8a96e;
+        z-index: 1000;
+        pointer-events: none;
+      }
+
+      @media (min-width: 769px) {
+        #scroll-progress {
+          display: none;
+        }
+      }
+
+      /* Sticky section label (mobile only) */
+      #section-label {
+        position: fixed;
+        bottom: calc(28px + env(safe-area-inset-bottom));
+        left: calc(20px + env(safe-area-inset-left));
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 9px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #9a8f85;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 998;
+        transition: opacity 0.4s ease;
+        margin: 0;
+      }
+
+      #section-label.visible {
+        opacity: 0.7;
+      }
+
+      @media (min-width: 769px) {
+        #section-label {
+          display: none;
+        }
+      }
+
+      /* Hide floating mobile UI when cart drawer or checkout modal is open */
+      body.is-locked #section-label,
+      body.is-locked #back-to-top {
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
     </style>
   </head>
   <body>
+    <div id="scroll-progress" aria-hidden="true"></div>
     <nav class="nav" aria-label="Section navigation">
       <div class="nav__inner">
         <a href="#about">About</a>
@@ -2264,6 +2317,90 @@
           });
         });
       })();
+
+      // -----------------------------------------------------------------
+      // Scroll progress bar (mobile)
+      // -----------------------------------------------------------------
+      (function () {
+        var bar = document.getElementById("scroll-progress");
+        if (!bar) return;
+
+        function update() {
+          var scrollTop = window.scrollY || window.pageYOffset || 0;
+          var docHeight =
+            document.documentElement.scrollHeight - window.innerHeight;
+          var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+          if (pct < 0) pct = 0;
+          if (pct > 100) pct = 100;
+          bar.style.width = pct + "%";
+        }
+
+        window.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update);
+        update();
+      })();
+
+      // -----------------------------------------------------------------
+      // Sticky section label (mobile)
+      // -----------------------------------------------------------------
+      (function () {
+        var label = document.getElementById("section-label");
+        if (!label) return;
+
+        var sectionLabels = {
+          about: "about",
+          trio: "the trio",
+          closet: "the closet",
+          album: "the album",
+          follow: "follow",
+        };
+
+        var currentId = null;
+        var swapTimer = null;
+
+        function setLabel(id) {
+          if (id === currentId) return;
+          currentId = id;
+          if (swapTimer) clearTimeout(swapTimer);
+          label.classList.remove("visible");
+          swapTimer = setTimeout(function () {
+            label.textContent = sectionLabels[id];
+            label.classList.add("visible");
+          }, 200);
+        }
+
+        if ("IntersectionObserver" in window) {
+          var observer = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting && sectionLabels[entry.target.id]) {
+                  setLabel(entry.target.id);
+                }
+              });
+            },
+            {
+              threshold: 0.3,
+              rootMargin: "0px 0px -40% 0px",
+            }
+          );
+
+          Object.keys(sectionLabels).forEach(function (id) {
+            var el = document.getElementById(id);
+            if (el) observer.observe(el);
+          });
+        }
+
+        window.addEventListener(
+          "scroll",
+          function () {
+            if (window.scrollY < 80) {
+              label.classList.remove("visible");
+              currentId = null;
+            }
+          },
+          { passive: true }
+        );
+      })();
     </script>
     <button id="back-to-top" aria-label="Back to top">
       <svg
@@ -2283,5 +2420,6 @@
         />
       </svg>
     </button>
+    <div id="section-label" aria-hidden="true"></div>
   </body>
 </html>
